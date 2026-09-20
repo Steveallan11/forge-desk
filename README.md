@@ -1,10 +1,5 @@
-# Forge Desk
+Forge Desk — outreach command centre.
 
-Outreach command centre for Forge / Roof IQ ICP leads.
+Operated from Forge chat. Actions = mailto / copy draft / Gmail deep links only (no auto-send).
 
-- Static site: `index.html`, `app.js`, `data/leads.json`
-- Status persistence via `localStorage` (Ready → Contacted → …)
-- Actions: mailto draft, copy email/UTM, Gmail search — **no auto-send**
-- Operated from Forge chat (queue next 10, draft outreach, check replies, daily briefing)
-
-Production: linked from the roofiq Vercel team as **forge-desk**.
+Commands: queue next 10 · draft outreach · check replies · daily briefing.
