@@ -1,1 +1,48 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Forge Desk</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0908;--ember:#f0a14a;--deep:#c45c26;--text:#f6f0e6;--muted:#a89a8c;--cream:#ebe1d2;--line:rgba(243,232,214,.08)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:IBM Plex Sans,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.top{display:flex;align-items:center;gap:1rem;padding:.75rem 1.1rem;border-bottom:1px solid var(--line);background:rgba(10,9,8,.9)}
+.brand{font-family:Syne,sans-serif;font-weight:800;letter-spacing:.1em}.brand span{color:var(--ember)}
+.banner{padding:.55rem 1.1rem;border-bottom:1px solid rgba(240,161,74,.18);background:linear-gradient(90deg,rgba(240,161,74,.1),transparent);font-size:.82rem;color:var(--cream)}
+.banner strong{font-family:Syne,sans-serif;color:var(--ember)}
+.hints{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.4rem}
+.hint{font-size:.7rem;padding:.2rem .5rem;border-radius:999px;border:1px solid var(--line);color:var(--muted)}.hint b{color:var(--ember)}
+.main{padding:1rem;max-width:900px;margin:0 auto}
+.row{padding:.75rem 0;border-bottom:1px solid var(--line);cursor:pointer}
+.row:hover{background:rgba(240,161,74,.05)}
+.co{font-family:Syne,sans-serif;font-weight:700;color:var(--cream)}.meta{font-size:.8rem;color:var(--muted);margin-top:.15rem}
+.score{font-family:Syne,sans-serif;font-weight:800;color:var(--ember);float:right}
+a.roof{margin-left:auto;color:var(--ember);font-family:Syne,sans-serif;font-weight:700;font-size:.75rem;text-decoration:none;border:1px solid rgba(240,161,74,.35);padding:.4rem .8rem;border-radius:999px}
+#detail{margin-top:1rem;padding:1rem;border:1px solid var(--line);border-radius:12px;display:none}
+.btn{display:inline-block;margin:.25rem .25rem 0 0;padding:.5rem .75rem;border-radius:8px;font-family:Syne,sans-serif;font-weight:700;font-size:.75rem;text-decoration:none;border:none;cursor:pointer}
+.btn-p{background:linear-gradient(135deg,var(--ember),var(--deep));color:#140e08}
+.btn-g{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text)}
+</style></head><body>
+<header class="top"><div class="brand">FORGE <span>DESK</span></div>
+<a class="roof" href="https://forge-roofiq.vercel.app" target="_blank" rel="noopener">Roof IQ ↗</a></header>
+<div class="banner"><strong>Operated from Forge chat.</strong> Actions = mailto · copy draft · Gmail deep links only — no auto-send.
+<div class="hints"><span class="hint"><b>queue</b> next 10</span><span class="hint"><b>draft</b> outreach</span><span class="hint"><b>check</b> replies</span><span class="hint"><b>daily</b> briefing</span></div></div>
+<div class="main"><div id="list"></div><div id="detail"></div></div>
+<script>
+const LEADS=[{"id":"lead_0001","company_name":"Crosby Roofing","website":"http://www.crosbyroofers.co.uk/","email":"crosbyroofing@live.co.uk","icp_score":5.0,"icp_notes":"personal/small email domain; has phone+website; UK address; low-mid reviews (15)","city":"Liverpool","description":"Professional, quality roofing company with 30+ years experience in the Liverpool, Crosby, Formby, Maghull, Southport, Merseyside area."},{"id":"lead_0002","company_name":"Curtis Moore Ltd","website":"http://www.curtismoore.co.uk/","email":"enquiries@curtismoore.co.uk","icp_score":5.0,"icp_notes":"uk corporate email; has phone+website; UK address; low-mid reviews (15); Ltd micro language","city":"Glasgow","description":""},{"id":"lead_0003","company_name":"Davids Of Wimborne Roofing Systems Ltd","website":"http://davidsroofing.co.uk/","email":"info@davidsofwimborne.co.uk","icp_score":5.0,"icp_notes":"uk corporate email; has phone+website; UK address; low-mid reviews (15); Ltd micro language","city":"Wimborne","description":"An established and trusted Roofing Company in Wimborne Dorset, working in Wiltshire and Hampshire too."},{"id":"lead_0004","company_name":"Heritage Roofing & Building Services Ltd","website":"https://www.heritageroofingandbuildingservices.co.uk/","email":"info@heritageroofingandbuildingservices.co.uk","icp_score":5.0,"icp_notes":"uk corporate email; has phone+website; UK address; low-mid reviews (15); Ltd micro language","city":"Peterborough","description":""},{"id":"lead_0005","company_name":"Heritage U.K. Ltd","website":"https://www.heritageuk.co.uk/","email":"peter@heritageuk.co.uk","icp_score":5.0,"icp_notes":"uk corporate email; has phone+website; UK address; low-mid reviews (15); Ltd micro language","city":"Halstead","description":""}];
+const ROOFIQ='https://forge-roofiq.vercel.app';
+const list=document.getElementById('list');
+const detail=document.getElementById('detail');
+function utm(id){const u=new URL(ROOFIQ);u.searchParams.set('utm_source','forge_desk');u.searchParams.set('utm_campaign','outreach');u.searchParams.set('utm_content',id);return u.toString()}
+function mailto(l){const s=encodeURIComponent('Quick idea for '+l.company_name+' — AI that fits how you actually work');
+const b=encodeURIComponent('Hi,\n\nI came across '+l.company_name+' and thought you might find this useful.\n\n'+utm(l.id)+'\n\nCheers,\nSteve\nForge');
+return 'mailto:'+encodeURIComponent(l.email)+'?subject='+s+'&body='+b}
+list.innerHTML=LEADS.map((l,i)=>`<div class="row" data-i="${i}"><span class="score">${l.icp_score}</span><div class="co">${l.company_name}</div><div class="meta">${l.city||''} · ${l.email}</div></div>`).join('');
+list.onclick=e=>{const row=e.target.closest('.row');if(!row)return;const l=LEADS[+row.dataset.i];detail.style.display='block';
+detail.innerHTML=`<div class="co">${l.company_name}</div><div class="meta">${l.city||''} · ${l.email}</div>
+<p style="color:var(--muted);margin:.75rem 0;font-size:.85rem">${l.description||l.icp_notes||''}</p>
+<a class="btn btn-p" href="${mailto(l)}">Draft email</a>
+<button class="btn btn-g" onclick="navigator.clipboard.writeText('${l.email}')">Copy email</button>
+<a class="btn btn-g" href="https://mail.google.com/mail/u/0/#search/${encodeURIComponent('from:'+l.email+' OR to:'+l.email)}" target="_blank" rel="noopener">Gmail search</a>
+${l.website?`<a class="btn btn-g" href="${l.website}" target="_blank" rel="noopener">Website</a>`:''}
+<div class="meta" style="margin-top:.75rem">UTM: <code style="color:var(--ember);font-size:.7rem">${utm(l.id)}</code></div>`;};
+</script></body></html>
